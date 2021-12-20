@@ -7,14 +7,14 @@ const Galery = require("../models/userGalery.model");
 
 const router = express.Router();
 
-router.post("/", uploadFile.any("profile_pic"), async (req, res) => {
+router.post("/", uploadFile.single("profile_pic"), async (req, res) => {
     try {
-        const pathArray = req.files.map(({path}) => path);
-        // const path_pic = req.file.path;
+        // const pathArray = req.files.map(({path}) => path);
+        const path_pic = req.file.path;
         const user = await User.create({
             first_name: req.body.first_name,
             last_name: req.body.last_name,
-            profile_pic: pathArray
+            profile_pic: path_pic
         });
         return res.status(201).send(user);
     } catch (error) {
@@ -54,8 +54,7 @@ router.delete("/", async (req, res) => {
                 deleteMulty(path);
             });
         });
-        // console.log(galData);
-        // const user = await User.findByIdAndDelete(req.query.id);
+        const user = await User.findByIdAndDelete(req.query.id);
         return res.status(201).send(galData);
     } catch (error) {
         return res.status(500).send({error: error.message, status: "failed to delete product"});

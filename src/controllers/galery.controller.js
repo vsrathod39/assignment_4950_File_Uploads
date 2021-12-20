@@ -3,7 +3,7 @@ const Galery = require("../models/userGalery.model");
 const express = require("express");
 const router = express.Router();
 
-router.post("/", uploadFile.array("profile_pic", 5), async (req, res) => {
+router.post("/", uploadFile.any("profile_pic"), async (req, res) => {
     try {
         const pathArray = req.files.map(({path}) => path);
         // const path_pic = req.file.path;
